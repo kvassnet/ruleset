@@ -1,0 +1,47 @@
+name: Update Rulesets
+
+on:
+  schedule:
+    # 12:00 PM PST (UTC-8) = 20:00 UTC daily
+    - cron: "0 20 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v10.3.3
+
+      - name: Generate rulesets
+        run: |
+          uv sync
+          for script in scripts/*.py; do
+            uv run "$script"
+          done
+
+      - name: Publish to ruleset branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          DEPLOY_DIR=$(mktemp -d)
+          cp -R list README.md "$DEPLOY_DIR/"
+          cd "$DEPLOY_DIR"
+          git init -b ruleset
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: update rulesets"
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" ruleset
+
+      - name: Purge jsDelivr cache
+        run: |
+          find list -type f | while read -r file; do
+            curl -fsSL "https://purge.jsdelivr.net/gh/${GITHUB_REPOSITORY}@ruleset/${file}" || true
+          done
