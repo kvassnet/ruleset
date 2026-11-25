@@ -20,6 +20,9 @@ jobs:
         uses: astral-sh/setup-uv@v10.3.3
 
       - name: Generate rulesets
+        env:
+          MAXMIND_ACCOUNT_ID: ${{ secrets.MAXMIND_ACCOUNT_ID }}
+          MAXMIND_LICENSE_KEY: ${{ secrets.MAXMIND_LICENSE_KEY }}
         run: |
           uv sync
           for script in scripts/*.py; do
