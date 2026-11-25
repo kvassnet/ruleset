@@ -21,7 +21,3 @@ jsDelivr: https://testingcf.jsdelivr.net/gh/kvassnet/ruleset@ruleset/list/geodat
 GeoLite2-ASN: ./list/geodata/GeoLite2-ASN.mmdb
 
 jsDelivr: https://testingcf.jsdelivr.net/gh/kvassnet/ruleset@ruleset/list/geodata/GeoLite2-ASN.mmdb
-
-GeoLite2-City: ./list/geodata/GeoLite2-City.mmdb
-
-jsDelivr: https://testingcf.jsdelivr.net/gh/kvassnet/ruleset@ruleset/list/geodata/GeoLite2-City.mmdb

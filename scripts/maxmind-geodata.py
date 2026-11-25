@@ -10,7 +10,6 @@ import httpx
 BASE_URL = "https://download.maxmind.com/geoip/databases/{edition}/download"
 EDITIONS = (
     "GeoLite2-ASN",
-    "GeoLite2-City",
     "GeoLite2-Country",
 )
 OUTPUT_DIR = Path(__file__).resolve().parent.parent / "list" / "geodata"
